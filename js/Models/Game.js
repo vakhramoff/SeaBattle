@@ -19,11 +19,11 @@
   checkEnd() {
     if (!this.player.isAlive()) {
       this.winner = this.computer.name;
-      this.gameOver = true;
+      this.gameIsOver = true;
       return true;
     } else if (!this.computer.isAlive()) {
       this.winner = this.player.name;
-      this.gameOver = true;
+      this.gameIsOver = true;
       return true;
     }
     return false;

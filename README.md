@@ -1,9 +1,9 @@
 # SeaBattle
 
-The game itself is available online at:\n
+The game itself is available online at:
 https://seabattle.vakhramoff.ru/
 
-The game successfully works in the following web-browsers:\n
-• Chrome (Desktop, Mobile)\n
-• Mozilla Firefox (Desktop)\n
-• Safari (Desktop)\n
+The game successfully works in the following web-browsers:
+• Chrome (Desktop, Mobile)
+• Mozilla Firefox (Desktop)
+• Safari (Desktop)

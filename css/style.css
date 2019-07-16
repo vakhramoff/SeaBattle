@@ -136,10 +136,12 @@ th, td {
     width: 25px;
     text-align: center;
     border: 1px solid rgb(126, 122, 122);
+    /* transition: all 0.3s ease; */
 }
 
 th:not(.hiddenBorder):not(.injured):not(.killed):not(.killedAuto):not(.missed):not(.missedAuto):not(.alive):hover {
     background-color: rgb(18, 124, 223);
+    /* transition: all 0.3s ease; */
 }
 
 .hiddenBorder {

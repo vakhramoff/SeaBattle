@@ -43,7 +43,7 @@ function helloWorld() {
   console.log("\n\n");
   console.log("You can play it online at: https://seabattle.vakhramoff.ru/");
   console.log("\n");
-  console.log("Source code is available at @vakhramoff's GitHub!");
+  console.log("Source code is available at GitHub: https://github.com/vakhramoff/SeaBattle");
   console.log("\n\n\n\n");
 }
 

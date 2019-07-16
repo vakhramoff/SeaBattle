@@ -1,5 +1,5 @@
 /* 
-  Presents a simple abstraction of a player of the Sea Battle Game
+  Represents a simple abstraction of a player of the Sea Battle Game
 */
 class Player {
   constructor(playerName) {
@@ -18,7 +18,7 @@ class Player {
   }
 
 
-  shareFieldWithoutAlives = function () {
+  shareFieldWithoutAlives() {
     this.shareField.fillEmpty();
 
     for (var i = 0; i <= 9; ++i) {
@@ -32,7 +32,7 @@ class Player {
     return this.shareField.field;
   }
 
-  isAlive = function () {
+  isAlive() {
     for (var i = 0; i < this.field.ships.length; i++) {
       if (this.field.ships[i].state !== ShipStates.killed) {
         return true;
@@ -41,15 +41,15 @@ class Player {
     return false;
   }
 
-  cleanData = function () {
+  cleanData() {
     this.field = new Field();
   }
 
-  arrangeShips = function () {
+  arrangeShips() {
     this.field.generateShips();
   }
 
-  refreshField = function () {
+  refreshField() {
     cleanData();
     arrangeShips();
   }
@@ -57,7 +57,7 @@ class Player {
   /*
     Marks unshot places on the field
   */
-  looseField = function () {
+  looseField() {
     for (var i = 0; i <= 9; ++i) {
       for (var j = 0; j <= 9; ++j) {
         var cell = this.field.field[i][j];
@@ -76,7 +76,7 @@ class Player {
   /*
     Allows to attack a specific cell at the "point"
   */
-  attackCell = function (point) {
+  attackCell(point) {
     if (this.field.field[point.i][point.j] !== 0) {
       for (var i = 0; i < this.field.ships.length; i++) {
         if (this.field.ships[i].containsCoordinate(point)) {

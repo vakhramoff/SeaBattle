@@ -10,7 +10,7 @@ const FieldCellTypes = {
 
 
 /* 
-  Presents Field's abstraction (a sea batlle field)
+  Represents Field's abstraction (a sea batlle field)
 */
 class Field {
   constructor() {
@@ -20,7 +20,7 @@ class Field {
     this.fillEmpty(this.field);
   }
 
-  fillEmpty = function () {
+  fillEmpty() {
     this.field = Array(10).fill(FieldCellTypes.empty).map(x => Array(10).fill(FieldCellTypes.empty));
   }
 
@@ -30,7 +30,7 @@ class Field {
     when the field size is 10*10 and there are
     4*1, 3*2, 2*3, 1*4 ships on it!
   */
-  generateShipsArrangement = function () {
+  generateShipsArrangement() {
     this.field = Array(10).fill(FieldCellTypes.empty).map(x => Array(10).fill(FieldCellTypes.empty));
     var temporaryField = Array(10).fill(FieldCellTypes.empty).map(x => Array(10).fill(FieldCellTypes.empty));
     this.ships = [];
@@ -107,15 +107,15 @@ class Field {
   }
 }
 
-emptyCoordinates = function (field) {
+function emptyCoordinates(field) {
   return specifiedCoordinates(field, FieldCellTypes.empty);
 }
 
-injuredCoordinates = function (field) {
+function injuredCoordinates(field) {
   return specifiedCoordinates(field, FieldCellTypes.injured);
 }
 
-emptyEvenCoordinates = function (field) {
+function emptyEvenCoordinates(field) {
   var result = [];
   for (var i = 0; i < 10; i+=2) {
     for (var j = 0; j < 10; j+=2) {
@@ -127,7 +127,7 @@ emptyEvenCoordinates = function (field) {
   return result;
 }
 
-specifiedCoordinates = function (field, cellType) {
+function specifiedCoordinates(field, cellType) {
   var result = [];
   for (var i = 0; i < 10; ++i) {
     for (var j = 0; j < 10; ++j) {
@@ -139,21 +139,21 @@ specifiedCoordinates = function (field, cellType) {
   return result;
 }
 
-filterCoordinates = function (coordinates) {
+function filterCoordinates(coordinates) {
   return coordinates.filter(coordinate =>
     Number(coordinate.i) >= 0 && Number(coordinate.i) <= 9
     && Number(coordinate.j) >= 0 && Number(coordinate.j) <= 9);
 }
 
-arrayContainsCoordinate = function (array, coordinate) {
+function arrayContainsCoordinate(array, coordinate) {
   return array.filter(element => element.i === coordinate.i && element.j === coordinate.j).length > 0;
 }
 
-isEvenPoint = function (point) {
+function isEvenPoint(point) {
   return point.i % 2 === 0 && point.j % 2 === 0;
 }
 
-unavailableCoordinatesForShip = function (coordinates) {
+function unavailableCoordinatesForShip(coordinates) {
   var result = [];
 
   if (coordinates === [])
@@ -172,7 +172,7 @@ unavailableCoordinatesForShip = function (coordinates) {
   return result;
 }
 
-unnecessaryToShotCoordinatesForPoint = function (point) {
+function unnecessaryToShotCoordinatesForPoint(point) {
   var result = [];
 
   result.push(
@@ -185,7 +185,7 @@ unnecessaryToShotCoordinatesForPoint = function (point) {
   return result;
 }
 
-toBeShotCoordinatesForPoint = function (point) {
+function toBeShotCoordinatesForPoint(point) {
   var result = [];
 
   result.push(
@@ -198,7 +198,7 @@ toBeShotCoordinatesForPoint = function (point) {
   return result;
 }
 
-coordinatesToShot = function (playerField, injuredPoints) {
+function coordinatesToShot(playerField, injuredPoints) {
   var result = [];
 
   var possibleCoordinates = [];

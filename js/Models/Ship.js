@@ -5,7 +5,7 @@ const ShipStates = {
 };
 
 /* 
-  Presents Ship's abstraction
+  Represents Ship's abstraction
 */
 class Ship {
   constructor(size) {
@@ -17,7 +17,7 @@ class Ship {
 
 
   // Returns ship's state
-  getState = function () {
+  getState() {
     switch (true) {
         case (this.hits === 0):
             this.state = ShipStates.alive
@@ -33,18 +33,18 @@ class Ship {
     return this.state;
   }
 
-  containsCoordinate = function (point) {
+  containsCoordinate(point) {
     return arrayContainsCoordinate(this.coordinates, point);
   }
 
   // Shot fired
-  gotShot = function () {
+  gotShot() {
     this.hits++;
     this.getState();
   }
   
   // Tries attack at thespicific "point"
-  tryAttack = function (point) {
+  tryAttack(point) {
     if (this.containsCoordinate(point)) {
         this.gotShot();
         return true;

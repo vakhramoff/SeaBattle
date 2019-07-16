@@ -1,5 +1,5 @@
 /* 
-  Presents a simple abstraction of Sea Battle Game
+  Represents a simple abstraction of Sea Battle Game
 */
  class Game {
   constructor(playerName) {
@@ -11,12 +11,12 @@
   }
 
 
-  changeTurn = function () {
+  changeTurn() {
     this.checkEnd();
     this.whoTurns = (this.whoTurns === 0) ? 1 : 0;
   }
 
-  checkEnd = function () {
+  checkEnd() {
     if (!this.player.isAlive()) {
       this.winner = this.computer.name;
       this.gameOver = true;

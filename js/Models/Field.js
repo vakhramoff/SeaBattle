@@ -218,4 +218,3 @@ function coordinatesToShot(playerField, injuredPoints) {
 
   return result;
 }
-

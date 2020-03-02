@@ -77,6 +77,10 @@ class Player {
     Allows to attack a specific cell at the "point"
   */
   attackCell(point) {
+    if (point === undefined) {
+      return ;
+    }
+
     if (this.field.field[point.i][point.j] !== 0) {
       for (var i = 0; i < this.field.ships.length; i++) {
         if (this.field.ships[i].containsCoordinate(point)) {

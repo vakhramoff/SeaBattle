@@ -481,46 +481,51 @@ const generateFieldTable = (fieldId, isUserField = true) => {
   "FieldCellTypes" is described at ../Models/Field.js
 */
 const drawCell = (fieldId, newCellState) => {
+  const fieldDOM = document.getElementById(fieldId);
+
+  if (!fieldDOM) {
+    return ;
+  }
+
   switch (newCellState) {
     case FieldCellTypes.empty:
-      document.getElementById(fieldId).innerHTML = '';
-      document.getElementById(fieldId).className = 'empty';
+      fieldDOM.innerHTML = '';
+      fieldDOM.className = 'empty';
       break;
 
     case FieldCellTypes.missed:
-      document.getElementById(fieldId).innerHTML = '&#9679;';
-      document.getElementById(fieldId).className = 'missed';
+      fieldDOM.innerHTML = '&#9679;';
+      fieldDOM.className = 'missed';
       break;
       
     case FieldCellTypes.missedAuto:
-      document.getElementById(fieldId).innerHTML = '&#9728;';
-      document.getElementById(fieldId).className = 'missedAuto';
+      fieldDOM.innerHTML = '&#9728;';
+      fieldDOM.className = 'missedAuto';
       break;
       
     case FieldCellTypes.injured:
-        document.getElementById(fieldId).innerHTML = '&#9587;';
-        document.getElementById(fieldId).className = 'ship';
-        document.getElementById(fieldId).className += ' injured';
+      fieldDOM.innerHTML = '&#9587;';
+      fieldDOM.className = 'ship';
+      fieldDOM.className += ' injured';
       break;
       
     case FieldCellTypes.killed:
-        document.getElementById(fieldId).innerHTML = '&#9587;';
-        document.getElementById(fieldId).className = 'ship';
-        document.getElementById(fieldId).className += ' killed';
+      fieldDOM.innerHTML = '&#9587;';
+      fieldDOM.className = 'ship';
+      fieldDOM.className += ' killed';
       break;
   
     case FieldCellTypes.killedAuto:
-      document.getElementById(fieldId).innerHTML = '&#9587;';
-      document.getElementById(fieldId).className = 'ship';
-      document.getElementById(fieldId).className += ' killedAuto';
+      fieldDOM.innerHTML = '&#9587;';
+      fieldDOM.className = 'ship';
+      fieldDOM.className += ' killedAuto';
       break;
 
     case FieldCellTypes.alive:
-      document.getElementById(fieldId).innerHTML = '';
-      document.getElementById(fieldId).className = 'ship';
-      document.getElementById(fieldId).className += ' alive';
+      fieldDOM.innerHTML = '';
+      fieldDOM.className = 'ship';
+      fieldDOM.className += ' alive';
       break;
-              
   }
 };
 

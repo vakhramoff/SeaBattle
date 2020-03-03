@@ -20,7 +20,7 @@ const includeScript = (where, path) => {
   script.async = false;
 
   where.appendChild(script);
-}
+};
 
 /*
   Calls when the page is fully loaded
@@ -46,7 +46,7 @@ const helloWorld = () => {
     The source code is available at GitHub: https://github.com/vakhramoff/SeaBattle
     `
   );
-}
+};
 
 
 /*
@@ -55,18 +55,18 @@ const helloWorld = () => {
 const configureApp = () => {
   const app = document.getElementById('app');
   const head = document.getElementsByTagName('head')[0];
+  const title = '\n\n<!-- Scripts -->\n';
+  const scriptsPaths = ['js/Models/Game.js', 'js/Models/Player.js', 'js/Models/Field.js', 'js/Models/Ship.js'];
 
   // Configure "app" appearance
   app.className += "centered"; // Center the app on the screen
 
   // Inserting modules to the page
-  title = '\n\n<!-- Scripts -->\n';
   head.innerHTML += title;
 
   // The order matters. See includeScript() method's description.
-  scriptsPaths = ['js/Models/Game.js', 'js/Models/Player.js', 'js/Models/Field.js', 'js/Models/Ship.js'];
   scriptsPaths.forEach(path => includeScript(head, path));
-}
+};
 
 
 /*
@@ -74,7 +74,7 @@ const configureApp = () => {
 */
 const startNewGame = () => {
   showShipsArrangementScreen();
-}
+};
 
 
 /*
@@ -98,7 +98,7 @@ const showStartScreen = () => {
 
   app.appendChild(windowTitle);
   app.appendChild(startButton);
-}
+};
 
 
 /*
@@ -140,13 +140,13 @@ const showInputNameScreen = () => {
 
       showShipsArrangementScreen();
     }
-  }
+  };
   
   app.appendChild(windowTitle);
   nameDiv.appendChild(nameField);
   app.appendChild(nameDiv);
   app.appendChild(confirmNameButton);
-}
+};
 
 
 /*
@@ -161,7 +161,7 @@ const validateNameField = (fieldName, nameForAlert) => {
     alert(nameForAlert + " shouldn't be empty!");
     return false;
   }
-}
+};
 
 
 /*
@@ -203,14 +203,14 @@ function showShipsArrangementScreen() {
     seaBattleGame.player.field.generateShipsArrangement();
     seaBattleGame.computer.field.generateShipsArrangement();
     drawCells(true);
-  }
+  };
 
   const startGameButton = document.createElement("button");
   startGameButton.textContent = "Let's go!";
   startGameButton.className = "smallButton";
   startGameButton.onclick = () => {
     showGameScreen();
-  }
+  };
 
   app.appendChild(windowTitle);
   leftField.appendChild(playerName);
@@ -234,6 +234,7 @@ function showShipsArrangementScreen() {
 function showGameScreen() {
   const app = document.getElementById('app');
   const windowTitle = document.createElement("div");
+  const fields = document.createElement('div');
   const leftField = document.createElement('div');
   const playerName = document.createElement('div');
   const playerField = document.createElement("table");
@@ -250,7 +251,6 @@ function showGameScreen() {
   windowTitle.className += " centeredText";
   windowTitle.innerHTML = 'Have a good luck! &#9752;';
 
-  fields = document.createElement('div');
   fields.id = "fields";
 
   leftField.id = "leftField";
@@ -279,7 +279,7 @@ function showGameScreen() {
   startButton.onclick = () => {
     startNewGame();
     showShipsArrangementScreen();
-  }
+  };
   
   app.appendChild(windowTitle);
   leftField.appendChild(playerName);
@@ -317,16 +317,18 @@ const fireCell = (cellId) => {
   const coordinateI = parseInt(values[1], 10);
   const coordinateJ = parseInt(values[2], 10);
 
+  let isEnd;
+
   let playerId = values[0];
   let isGoodShot = FieldCellTypes.missed;
 
-  if (playerId = "computer") {
+  if (playerId === "computer") {
     isGoodShot = seaBattleGame.computer.attackCell( { i: coordinateI, j: coordinateJ } );
 
     document.getElementById(cellId).setAttribute('onclick', '');
   }
 
-  var isEnd = seaBattleGame.checkEnd();
+  isEnd = seaBattleGame.checkEnd();
 
   if (!isEnd) {
     if (isGoodShot !== FieldCellTypes.injured && isGoodShot !== FieldCellTypes.killed) {
@@ -340,7 +342,7 @@ const fireCell = (cellId) => {
   }
 
   drawCells();
-}
+};
 
 /*
   Stupid AI turn
@@ -353,11 +355,12 @@ const makeArtificialIntelligenceTurn = async () => {
   }
 
   let isGoodShot = FieldCellTypes.missed;
+
   while (true) {
     await sleep(computerTurnTime);
 
     const pointToShot = artificialIntelligenceCalculateBestPointToShot();
-    const isGoodShot = seaBattleGame.player.attackCell(pointToShot);
+    isGoodShot = seaBattleGame.player.attackCell(pointToShot);
 
     let isEnd = seaBattleGame.checkEnd();
 
@@ -375,11 +378,11 @@ const makeArtificialIntelligenceTurn = async () => {
 
     drawCells();
   }
-}
+};
 
 
 /*
-  Anothet function which supplies our stupid AI
+  Another function which supplies our stupid AI
   with choosing a coordinate where to apply their rockets
 */
 const artificialIntelligenceCalculateBestPointToShot = () => {
@@ -400,7 +403,7 @@ const artificialIntelligenceCalculateBestPointToShot = () => {
   }
 
   return pointsToShot[ getRandomInt(0, pointsToShot.length - 1) ];
-}
+};
 
 
 /*
@@ -409,7 +412,7 @@ const artificialIntelligenceCalculateBestPointToShot = () => {
 const changeTurn = () => {
   seaBattleGame.changeTurn();
   renderGameStatus();
-}
+};
 
 /*
   Renders the status label (shows who turns)
@@ -429,16 +432,17 @@ const renderGameStatus = () => {
   }
 
   gameStatusTitle.innerHTML = playerName + '\'s turn! &#128163;';
-}
+};
 
 
 /*
   Renders the status label (shows who has won)
 */
 const renderWinnerStatus = () => {
-  var gameStatusTitle = document.getElementById("gameStatus");
+  const gameStatusTitle = document.getElementById("gameStatus");
+
   gameStatusTitle.innerHTML = seaBattleGame.winner + '\'s won the game! &#128165;';
-}
+};
 
 
 /*
@@ -448,12 +452,12 @@ const generateFieldTable = (fieldId, isUserField = true) => {
   const alphabets = 'ABCDEFGHIJ';
   let header = '<th class="hiddenBorder"></th>';
   
-  for (var i = 0, n = alphabets.length; i < n; ++i) {
+  for (let i = 0, n = alphabets.length; i < n; ++i) {
     header += '<th class="hiddenBorder">' + alphabets.charAt(i) + '</th>';
   }
 
-  var result = '<tr>' + header + '</tr>';
-  for (i = 0; i < 10; i++) {
+  let result = '<tr>' + header + '</tr>';
+  for (let i = 0; i < 10; i++) {
     result += '<tr><th class="hiddenBorder">' + (i + 1) + '</th>';
     for (j = 0; j < 10; j++) {
       if (isUserField) {
@@ -465,7 +469,7 @@ const generateFieldTable = (fieldId, isUserField = true) => {
     result += '</tr>';
   }
   return result;
-}
+};
 
 /*
   Draws the cell at the field with ID like "playerID_I_J"
@@ -515,7 +519,7 @@ const drawCell = (fieldId, newCellState) => {
       break;
               
   }
-}
+};
 
 
 /*
@@ -547,7 +551,7 @@ const drawCells = (onlyPlayer = false) => {
       }
     }
   }
-}
+};
 
 
 /*
@@ -555,18 +559,21 @@ const drawCells = (onlyPlayer = false) => {
 */
 const drawCellByCoordinates = (fieldName, i, j, newCellState) => {
   let fieldId = fieldName + '_' + i + '_' + j;
+
   drawCell(fieldId, newCellState);
-}
+};
 
 
 /*
   Returns ABS random integer (crutch-fix to avoid values like "-0")
 */
 const getRandomInt = (min, max) => {
-  var rand = min - 0.5 + Math.random() * (max - min + 1)
+  let rand = min - 0.5 + Math.random() * (max - min + 1);
+
   rand = Math.round(rand);
+
   return rand;
-}
+};
 
 
 /*

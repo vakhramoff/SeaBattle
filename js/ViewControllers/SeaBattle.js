@@ -421,9 +421,13 @@ const changeTurn = () => {
   Renders the status label (shows who turns)
 */
 const renderGameStatus = () => {
-  const gameStatusTitle = document.getElementById("gameStatus");
+  const gameStatusTitle = document.getElementById('gameStatus');
 
-  let playerName = "";
+  if (!gameStatusTitle) {
+    return ;
+  }
+
+  let playerName = '';
 
   switch (seaBattleGame.whoTurns) {
     case 0:
@@ -442,7 +446,11 @@ const renderGameStatus = () => {
   Renders the status label (shows who has won)
 */
 const renderWinnerStatus = () => {
-  const gameStatusTitle = document.getElementById("gameStatus");
+  const gameStatusTitle = document.getElementById('gameStatus');
+
+  if (!gameStatusTitle) {
+    return ;
+  }
 
   gameStatusTitle.innerHTML = seaBattleGame.winner + '\'s won the game! &#128165;';
 };

@@ -25,7 +25,7 @@ const includeScript = (where, path) => {
 /*
   Calls when the page is fully loaded
 */
-window.onload = function () {
+window.onload = () => {
   helloWorld();
   configureApp();
   showStartScreen();
@@ -76,7 +76,7 @@ const startNewGame = () => {
   if (seaBattleGame !== null) {
     seaBattleGame.newGame();
   }
-  
+
   showShipsArrangementScreen();
 };
 
@@ -172,7 +172,7 @@ const validateNameField = (fieldName, nameForAlert) => {
   Shows screen where user generates ships' arrangement:
   To continue you've to push the "Let's go!" button
 */
-function showShipsArrangementScreen() {
+const showShipsArrangementScreen = () => {
   const app = document.getElementById('app');
   const windowTitle = document.createElement("div");
   const fields = document.createElement('div');
@@ -235,7 +235,7 @@ function showShipsArrangementScreen() {
   the left field is a field with player's ships
   the right field is a field with computer's ships
 */
-function showGameScreen() {
+const showGameScreen = () => {
   const app = document.getElementById('app');
   const windowTitle = document.createElement("div");
   const fields = document.createElement('div');

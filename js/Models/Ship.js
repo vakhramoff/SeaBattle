@@ -43,7 +43,7 @@ class Ship {
     this.getState();
   }
   
-  // Tries attack at thespicific "point"
+  // Tries attack at the specific "point"
   tryAttack(point) {
     if (this.containsCoordinate(point)) {
         this.gotShot();

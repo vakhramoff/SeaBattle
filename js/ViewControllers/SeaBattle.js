@@ -308,6 +308,9 @@ const fireCell = (cellId) => {
   if (seaBattleGame.gameIsOver || seaBattleGame.whoTurns === 1) {
     if (seaBattleGame.gameIsOver) {
       drawCells();
+      seaBattleGame.player.looseField();
+      seaBattleGame.computer.looseField();
+      renderWinnerStatus();
     }
 
     return ;

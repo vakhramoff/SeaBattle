@@ -17,15 +17,20 @@
   }
 
   checkEnd() {
+    let result = false;
+
     if (!this.player.isAlive()) {
       this.winner = this.computer.name;
-      this.gameOver = true;
-      return true;
+      this.gameIsOver = true;
+
+      result = true;
     } else if (!this.computer.isAlive()) {
       this.winner = this.player.name;
-      this.gameOver = true;
-      return true;
+      this.gameIsOver = true;
+
+      result = true;
     }
-    return false;
+
+    return result;
   }
 }

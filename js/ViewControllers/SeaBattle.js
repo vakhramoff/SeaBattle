@@ -73,6 +73,10 @@ const configureApp = () => {
   Starts new game
 */
 const startNewGame = () => {
+  if (seaBattleGame !== null) {
+    seaBattleGame.newGame();
+  }
+  
   showShipsArrangementScreen();
 };
 
@@ -132,7 +136,7 @@ const showInputNameScreen = () => {
       const name = document.getElementById("userName").value;
       const player = new Player(name);
       
-      // if (seaBattleGame === null)
+      if (seaBattleGame === null)
       {
         seaBattleGame = new Game();
         seaBattleGame.player = player;

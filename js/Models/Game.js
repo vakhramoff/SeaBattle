@@ -33,4 +33,10 @@
 
     return result;
   }
+
+  newGame() {
+    this.gameIsOver = false;
+    this.winner = undefined;
+    this.whoTurns = getRandomInt(0, 1); // 0 - player, 1 - computer
+  }
 }

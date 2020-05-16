@@ -4,8 +4,8 @@
   checks has anyone won the game either
   we have to continue the battle!
 */
-let seaBattleGame = null;
-let computerTurnTime = 500; // how much milliseconds does it take for computer to make a turn
+const COMPUTER_TURN_TIME = 500; // how much milliseconds does it take for computer to make a turn
+let seaBattleGameInstance = null;
 
 /*
   Function which allows to include other JS files into the page
@@ -36,7 +36,7 @@ window.onload = () => {
   Tells about me
 */
 const helloWorld = () => {
-  console.warn(
+  console.info(
     `
     Hello! My name is Sergey Vakhramov.
     This is a simple Sea Battle game.
@@ -73,8 +73,8 @@ const configureApp = () => {
   Starts new game
 */
 const startNewGame = () => {
-  if (seaBattleGame !== null) {
-    seaBattleGame.newGame();
+  if (seaBattleGameInstance !== null) {
+    seaBattleGameInstance.newGame();
   }
 
   showShipsArrangementScreen();
@@ -135,17 +135,17 @@ const showInputNameScreen = () => {
     if (validateNameField("userName", "Name")) {
       const name = document.getElementById("userName").value;
       const player = new Player(name);
-      
-      if (seaBattleGame === null)
+
+      if (seaBattleGameInstance === null)
       {
-        seaBattleGame = new Game();
-        seaBattleGame.player = player;
+        seaBattleGameInstance = new Game();
+        seaBattleGameInstance.player = player;
       }
 
       showShipsArrangementScreen();
     }
   };
-  
+
   app.appendChild(windowTitle);
   nameDiv.appendChild(nameField);
   app.appendChild(nameDiv);
@@ -194,7 +194,7 @@ const showShipsArrangementScreen = () => {
   playerName.id = "playerNameLabel";
   playerName.className = "userNameLabel";
   playerName.className += " centeredText";
-  playerName.innerHTML = seaBattleGame.player.name;
+  playerName.innerHTML = seaBattleGameInstance.player.name;
   playerField.id = "playerField";
   playerField.innerHTML = generateFieldTable("player");
 
@@ -204,8 +204,8 @@ const showShipsArrangementScreen = () => {
   rearrangeShipsButton.textContent = "Rearrange Ships";
   rearrangeShipsButton.className = "smallButton";
   rearrangeShipsButton.onclick = () => {
-    seaBattleGame.player.field.generateShipsArrangement();
-    seaBattleGame.computer.field.generateShipsArrangement();
+    seaBattleGameInstance.player.field.generateShipsArrangement();
+    seaBattleGameInstance.computer.field.generateShipsArrangement();
     drawCells(true);
   };
 
@@ -261,7 +261,7 @@ const showGameScreen = () => {
   playerName.id = "playerNameLabel";
   playerName.className = "userNameLabel";
   playerName.className += " centeredText";
-  playerName.innerHTML = seaBattleGame.player.name;
+  playerName.innerHTML = seaBattleGameInstance.player.name;
   playerField.id = "playerField";
   playerField.innerHTML = generateFieldTable("player");
 
@@ -269,7 +269,7 @@ const showGameScreen = () => {
   computerName.id = "computerNameLabel";
   computerName.className = "userNameLabel";
   computerName.className += " centeredText";
-  computerName.innerHTML = seaBattleGame.computer.name;
+  computerName.innerHTML = seaBattleGameInstance.computer.name;
   computerField.id = "computerField";
   computerField.innerHTML = generateFieldTable("computer", false);
 
@@ -284,7 +284,7 @@ const showGameScreen = () => {
     startNewGame();
     showShipsArrangementScreen();
   };
-  
+
   app.appendChild(windowTitle);
   leftField.appendChild(playerName);
   leftField.appendChild(playerField);
@@ -299,7 +299,7 @@ const showGameScreen = () => {
   drawCells();
   renderGameStatus();
 
-  if (seaBattleGame.whoTurns === 1) {
+  if (seaBattleGameInstance.whoTurns === 1) {
     makeArtificialIntelligenceTurn();
   }
 }
@@ -309,11 +309,11 @@ const showGameScreen = () => {
   fireCell("player_1_1") eans that shot is applied to player's field at (1, 1) coordinate
 */
 const fireCell = (cellId) => {
-  if (seaBattleGame.gameIsOver || seaBattleGame.whoTurns === 1) {
-    if (seaBattleGame.gameIsOver) {
+  if (seaBattleGameInstance.gameIsOver || seaBattleGameInstance.whoTurns === 1) {
+    if (seaBattleGameInstance.gameIsOver) {
       drawCells();
-      seaBattleGame.player.looseField();
-      seaBattleGame.computer.looseField();
+      seaBattleGameInstance.player.looseField();
+      seaBattleGameInstance.computer.looseField();
       renderWinnerStatus();
     }
 
@@ -330,12 +330,12 @@ const fireCell = (cellId) => {
   let isGoodShot = FieldCellTypes.missed;
 
   if (playerId === "computer") {
-    isGoodShot = seaBattleGame.computer.attackCell( { i: coordinateI, j: coordinateJ } );
+    isGoodShot = seaBattleGameInstance.computer.attackCell( { i: coordinateI, j: coordinateJ } );
 
     document.getElementById(cellId).setAttribute('onclick', '');
   }
 
-  isEnd = seaBattleGame.checkEnd();
+  isEnd = seaBattleGameInstance.checkEnd();
 
   if (!isEnd) {
     if (isGoodShot !== FieldCellTypes.injured && isGoodShot !== FieldCellTypes.killed) {
@@ -343,8 +343,8 @@ const fireCell = (cellId) => {
       makeArtificialIntelligenceTurn();
     }
   } else {
-    seaBattleGame.player.looseField();
-    seaBattleGame.computer.looseField();
+    seaBattleGameInstance.player.looseField();
+    seaBattleGameInstance.computer.looseField();
     renderWinnerStatus();
   }
 
@@ -355,7 +355,7 @@ const fireCell = (cellId) => {
   Stupid AI turn
 */
 const makeArtificialIntelligenceTurn = async () => {
-  if (seaBattleGame.gameIsOver) {
+  if (seaBattleGameInstance.gameIsOver) {
     drawCells();
 
     return ;
@@ -364,12 +364,12 @@ const makeArtificialIntelligenceTurn = async () => {
   let isGoodShot = FieldCellTypes.missed;
 
   while (true) {
-    await sleep(computerTurnTime);
+    await sleep(COMPUTER_TURN_TIME);
 
     const pointToShot = artificialIntelligenceCalculateBestPointToShot();
-    isGoodShot = seaBattleGame.player.attackCell(pointToShot);
+    isGoodShot = seaBattleGameInstance.player.attackCell(pointToShot);
 
-    let isEnd = seaBattleGame.checkEnd();
+    let isEnd = seaBattleGameInstance.checkEnd();
 
     if (!isEnd) {
       if (isGoodShot !== FieldCellTypes.injured && isGoodShot !== FieldCellTypes.killed) {
@@ -378,8 +378,8 @@ const makeArtificialIntelligenceTurn = async () => {
         break;
       }
     } else {
-      seaBattleGame.player.looseField();
-      seaBattleGame.computer.looseField();
+      seaBattleGameInstance.player.looseField();
+      seaBattleGameInstance.computer.looseField();
       renderWinnerStatus();
     }
 
@@ -393,12 +393,12 @@ const makeArtificialIntelligenceTurn = async () => {
   with choosing a coordinate where to apply their rockets
 */
 const artificialIntelligenceCalculateBestPointToShot = () => {
-  const playerField = seaBattleGame.player.shareFieldWithoutAlives();
+  const playerField = seaBattleGameInstance.player.shareFieldWithoutAlives();
   const injuredPoints = injuredCoordinates(playerField);
   const emptyEvenPoints = emptyEvenCoordinates(playerField);
 
   let emptyPoints = emptyCoordinates(playerField);
-  let pointsToShot = [];
+  let pointsToShot;
 
   if (emptyEvenPoints.length > 0)
     emptyPoints = emptyEvenPoints;
@@ -417,7 +417,7 @@ const artificialIntelligenceCalculateBestPointToShot = () => {
   Changes who turns now and renders the status label
 */
 const changeTurn = () => {
-  seaBattleGame.changeTurn();
+  seaBattleGameInstance.changeTurn();
   renderGameStatus();
 };
 
@@ -433,12 +433,12 @@ const renderGameStatus = () => {
 
   let playerName = '';
 
-  switch (seaBattleGame.whoTurns) {
+  switch (seaBattleGameInstance.whoTurns) {
     case 0:
-        playerName = seaBattleGame.player.name;
+        playerName = seaBattleGameInstance.player.name;
       break;
     case 1:
-        playerName = seaBattleGame.computer.name;
+        playerName = seaBattleGameInstance.computer.name;
       break;
   }
 
@@ -456,7 +456,7 @@ const renderWinnerStatus = () => {
     return ;
   }
 
-  gameStatusTitle.innerHTML = seaBattleGame.winner + '\'s won the game! &#128165;';
+  gameStatusTitle.innerHTML = seaBattleGameInstance.winner + '\'s won the game! &#128165;';
 };
 
 
@@ -466,7 +466,7 @@ const renderWinnerStatus = () => {
 const generateFieldTable = (fieldId, isUserField = true) => {
   const alphabets = 'ABCDEFGHIJ';
   let header = '<th class="hiddenBorder"></th>';
-  
+
   for (let i = 0, n = alphabets.length; i < n; ++i) {
     header += '<th class="hiddenBorder">' + alphabets.charAt(i) + '</th>';
   }
@@ -489,7 +489,7 @@ const generateFieldTable = (fieldId, isUserField = true) => {
 /*
   Draws the cell at the field with ID like "playerID_I_J"
   drawCell("player_1_1", FieldCellTypes.injured) draw an injured cell at (1, 1) coordinate on the player's field
-  
+
   "FieldCellTypes" is described at ../Models/Field.js
 */
 const drawCell = (fieldId, newCellState) => {
@@ -509,24 +509,24 @@ const drawCell = (fieldId, newCellState) => {
       fieldDOM.innerHTML = '&#9679;';
       fieldDOM.className = 'missed';
       break;
-      
+
     case FieldCellTypes.missedAuto:
       fieldDOM.innerHTML = '&#9728;';
       fieldDOM.className = 'missedAuto';
       break;
-      
+
     case FieldCellTypes.injured:
       fieldDOM.innerHTML = '&#9587;';
       fieldDOM.className = 'ship';
       fieldDOM.className += ' injured';
       break;
-      
+
     case FieldCellTypes.killed:
       fieldDOM.innerHTML = '&#9587;';
       fieldDOM.className = 'ship';
       fieldDOM.className += ' killed';
       break;
-  
+
     case FieldCellTypes.killedAuto:
       fieldDOM.innerHTML = '&#9587;';
       fieldDOM.className = 'ship';
@@ -548,8 +548,8 @@ const drawCell = (fieldId, newCellState) => {
   onlyPlayer: if true, updates only player's field
 */
 const drawCells = (onlyPlayer = false) => {
-  const playerCells = seaBattleGame.player.field.field;
-  const computerCells = seaBattleGame.computer.field.field;
+  const playerCells = seaBattleGameInstance.player.field.field;
+  const computerCells = seaBattleGameInstance.computer.field.field;
 
   for (let i = 0; i <= 9; ++i) {
     for (let j = 0; j <= 9; ++j) {
@@ -558,11 +558,11 @@ const drawCells = (onlyPlayer = false) => {
 
       if (!onlyPlayer) {
         const computerCellType = computerCells[i][j];
-        
+
         if (computerCellType !== FieldCellTypes.alive) {
           drawCellByCoordinates("computer", i, j, computerCellType);
         }
-        
+
         if (computerCellType === FieldCellTypes.missedAuto || computerCellType === FieldCellTypes.missed) {
           const cellId = "computer_" + i + "_" + j;
 

@@ -13,8 +13,8 @@ let seaBattleGameInstance = null;
 const includeScript = (where, path) => {
   const script = document.createElement('script');
 
-  script.onload = () => console.log(`Script "${path}" was added to the DOM, loaded and is ready now.`);
-  script.type = "text/javascript";
+  script.onload = () => console.debug(`Script "${path}" was added to the DOM, loaded and is ready now.`);
+  script.type = 'text/javascript';
   script.src = path;
   script.defer = true;
   script.async = false;
@@ -59,7 +59,7 @@ const configureApp = () => {
   const scriptsPaths = ['js/Models/Game.js', 'js/Models/Player.js', 'js/Models/Field.js', 'js/Models/Ship.js'];
 
   // Configure "app" appearance
-  app.className += "centered"; // Center the app on the screen
+  app.className += 'centered'; // Center the app on the screen
 
   // Inserting modules to the page
   head.innerHTML += title;
@@ -87,17 +87,17 @@ const startNewGame = () => {
 */
 const showStartScreen = () => {
   const app = document.getElementById('app');
-  const windowTitle = document.createElement("div");
-  const startButton = document.createElement("button");
+  const windowTitle = document.createElement('div');
+  const startButton = document.createElement('button');
 
   app.innerHTML = '';
 
-  windowTitle.className = "gameNameLabel";
-  windowTitle.className += " centeredText";
+  windowTitle.className = 'gameNameLabel';
+  windowTitle.className += ' centeredText';
   windowTitle.innerHTML = 'Sea Battle &#9875;';
 
-  startButton.textContent = "Start New Game";
-  startButton.className += "bigButton";
+  startButton.textContent = 'Start New Game';
+  startButton.className += 'bigButton';
   startButton.onclick = () => showInputNameScreen();
 
   app.appendChild(windowTitle);
@@ -113,27 +113,27 @@ const showInputNameScreen = () => {
   const app = document.getElementById('app');
   const nameDiv = document.createElement('div');
   const nameField = document.createElement('input');
-  const windowTitle = document.createElement("div");
-  const confirmNameButton = document.createElement("button");
+  const windowTitle = document.createElement('div');
+  const confirmNameButton = document.createElement('button');
 
   app.innerHTML = '';
 
-  windowTitle.className = "windowTitleLabel";
-  windowTitle.className += " centeredText";
+  windowTitle.className = 'windowTitleLabel';
+  windowTitle.className += ' centeredText';
   windowTitle.innerHTML = 'Who are you? Fill in your name. &#9881;';
 
-  nameField.id = "userName";
-  nameField.className = "inputField";
-  nameField.className += " centeredText";
-  nameField.value = "Vladimir Putin";
-  nameField.setAttribute("maxlength", 20);
-  nameField.setAttribute("placeholder", "Your name");
+  nameField.id = 'userName';
+  nameField.className = 'inputField';
+  nameField.className += ' centeredText';
+  nameField.value = 'Vladimir Putin';
+  nameField.setAttribute('maxlength', '20');
+  nameField.setAttribute('placeholder', 'Your name');
 
-  confirmNameButton.textContent = "That's my name!";
-  confirmNameButton.className = "bigButton";
+  confirmNameButton.textContent = `That's my name!`;
+  confirmNameButton.className = 'bigButton';
   confirmNameButton.onclick = () => {
-    if (validateNameField("userName", "Name")) {
-      const name = document.getElementById("userName").value;
+    if (validateNameField('userName', 'Name')) {
+      const name = document.getElementById('userName').value;
       const player = new Player(name);
 
       if (seaBattleGameInstance === null)
@@ -159,10 +159,10 @@ const showInputNameScreen = () => {
 const validateNameField = (fieldName, nameForAlert) => {
   const fieldText = document.getElementById(fieldName).value;
 
-  if (fieldText !== "") {
+  if (fieldText !== '') {
     return true;
   } else {
-    alert(nameForAlert + " shouldn't be empty!");
+    alert(nameForAlert + ` shouldn't be empty!`);
     return false;
   }
 };
@@ -174,44 +174,44 @@ const validateNameField = (fieldName, nameForAlert) => {
 */
 const showShipsArrangementScreen = () => {
   const app = document.getElementById('app');
-  const windowTitle = document.createElement("div");
+  const windowTitle = document.createElement('div');
   const fields = document.createElement('div');
   const leftField = document.createElement('div');
   const playerName = document.createElement('div');
-  const playerField = document.createElement("table");
+  const playerField = document.createElement('table');
   const rightField = document.createElement('div');
-  const rearrangeShipsButton = document.createElement("button");
+  const rearrangeShipsButton = document.createElement('button');
 
   app.innerHTML = '';
 
-  windowTitle.className = "windowTitleLabel";
-  windowTitle.className += " centeredText";
+  windowTitle.className = 'windowTitleLabel';
+  windowTitle.className += ' centeredText';
   windowTitle.innerHTML = 'Arrange your ships &#128755;'; //&#9752;
 
-  fields.id = "fields";
+  fields.id = 'fields';
 
-  leftField.id = "leftField";
-  playerName.id = "playerNameLabel";
-  playerName.className = "userNameLabel";
-  playerName.className += " centeredText";
+  leftField.id = 'leftField';
+  playerName.id = 'playerNameLabel';
+  playerName.className = 'userNameLabel';
+  playerName.className += ' centeredText';
   playerName.innerHTML = seaBattleGameInstance.player.name;
-  playerField.id = "playerField";
-  playerField.innerHTML = generateFieldTable("player");
+  playerField.id = 'playerField';
+  playerField.innerHTML = generateFieldTable('player');
 
-  rightField.id = "rightField";
+  rightField.id = 'rightField';
   rightField.innerHTML = '';
 
-  rearrangeShipsButton.textContent = "Rearrange Ships";
-  rearrangeShipsButton.className = "smallButton";
+  rearrangeShipsButton.textContent = 'Rearrange Ships';
+  rearrangeShipsButton.className = 'smallButton';
   rearrangeShipsButton.onclick = () => {
     seaBattleGameInstance.player.field.generateShipsArrangement();
     seaBattleGameInstance.computer.field.generateShipsArrangement();
     drawCells(true);
   };
 
-  const startGameButton = document.createElement("button");
-  startGameButton.textContent = "Let's go!";
-  startGameButton.className = "smallButton";
+  const startGameButton = document.createElement('button');
+  startGameButton.textContent = `Let's go!`;
+  startGameButton.className = 'smallButton';
   startGameButton.onclick = () => {
     showGameScreen();
   };
@@ -237,49 +237,49 @@ const showShipsArrangementScreen = () => {
 */
 const showGameScreen = () => {
   const app = document.getElementById('app');
-  const windowTitle = document.createElement("div");
+  const windowTitle = document.createElement('div');
   const fields = document.createElement('div');
   const leftField = document.createElement('div');
   const playerName = document.createElement('div');
-  const playerField = document.createElement("table");
+  const playerField = document.createElement('table');
   const rightField = document.createElement('div');
   const computerName = document.createElement('div');
-  const computerField = document.createElement("table");
-  const gameStatusTitle = document.createElement("div");
-  const startButton = document.createElement("button");
+  const computerField = document.createElement('table');
+  const gameStatusTitle = document.createElement('div');
+  const startButton = document.createElement('button');
 
   app.innerHTML = '';
 
-  windowTitle.id = "gameTitle";
-  windowTitle.className = "windowTitleLabel";
-  windowTitle.className += " centeredText";
+  windowTitle.id = 'gameTitle';
+  windowTitle.className = 'windowTitleLabel';
+  windowTitle.className += ' centeredText';
   windowTitle.innerHTML = 'Have a good luck! &#9752;';
 
-  fields.id = "fields";
+  fields.id = 'fields';
 
-  leftField.id = "leftField";
-  playerName.id = "playerNameLabel";
-  playerName.className = "userNameLabel";
-  playerName.className += " centeredText";
+  leftField.id = 'leftField';
+  playerName.id = 'playerNameLabel';
+  playerName.className = 'userNameLabel';
+  playerName.className += ' centeredText';
   playerName.innerHTML = seaBattleGameInstance.player.name;
-  playerField.id = "playerField";
-  playerField.innerHTML = generateFieldTable("player");
+  playerField.id = 'playerField';
+  playerField.innerHTML = generateFieldTable('player');
 
-  rightField.id = "rightField";
-  computerName.id = "computerNameLabel";
-  computerName.className = "userNameLabel";
-  computerName.className += " centeredText";
+  rightField.id = 'rightField';
+  computerName.id = 'computerNameLabel';
+  computerName.className = 'userNameLabel';
+  computerName.className += ' centeredText';
   computerName.innerHTML = seaBattleGameInstance.computer.name;
-  computerField.id = "computerField";
-  computerField.innerHTML = generateFieldTable("computer", false);
+  computerField.id = 'computerField';
+  computerField.innerHTML = generateFieldTable('computer', false);
 
-  gameStatusTitle.id = "gameStatus";
-  gameStatusTitle.className = "gameStatusLabel";
-  gameStatusTitle.className += " centeredText";
+  gameStatusTitle.id = 'gameStatus';
+  gameStatusTitle.className = 'gameStatusLabel';
+  gameStatusTitle.className += ' centeredText';
   gameStatusTitle.innerHTML = 'Developer\'s turn! &#128069;';
 
-  startButton.textContent = "Start New Game";
-  startButton.className += "smallButton";
+  startButton.textContent = 'Start New Game';
+  startButton.className += 'smallButton';
   startButton.onclick = () => {
     startNewGame();
     showShipsArrangementScreen();
@@ -320,7 +320,7 @@ const fireCell = (cellId) => {
     return ;
   }
 
-  const values = cellId.split("_");
+  const values = cellId.split('_');
   const coordinateI = parseInt(values[1], 10);
   const coordinateJ = parseInt(values[2], 10);
 
@@ -329,7 +329,7 @@ const fireCell = (cellId) => {
   let playerId = values[0];
   let isGoodShot = FieldCellTypes.missed;
 
-  if (playerId === "computer") {
+  if (playerId === 'computer') {
     isGoodShot = seaBattleGameInstance.computer.attackCell( { i: coordinateI, j: coordinateJ } );
 
     document.getElementById(cellId).setAttribute('onclick', '');
@@ -554,17 +554,17 @@ const drawCells = (onlyPlayer = false) => {
   for (let i = 0; i <= 9; ++i) {
     for (let j = 0; j <= 9; ++j) {
       const playerCellType = playerCells[i][j];
-      drawCellByCoordinates("player", i, j, playerCellType);
+      drawCellByCoordinates('player', i, j, playerCellType);
 
       if (!onlyPlayer) {
         const computerCellType = computerCells[i][j];
 
         if (computerCellType !== FieldCellTypes.alive) {
-          drawCellByCoordinates("computer", i, j, computerCellType);
+          drawCellByCoordinates('computer', i, j, computerCellType);
         }
 
         if (computerCellType === FieldCellTypes.missedAuto || computerCellType === FieldCellTypes.missed) {
-          const cellId = "computer_" + i + "_" + j;
+          const cellId = 'computer_' + i + '_' + j;
 
           document.getElementById(cellId).setAttribute('onclick', '');
         }

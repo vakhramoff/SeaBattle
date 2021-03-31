@@ -1,6 +1,9 @@
 # SeaBattle
-The game itself is available online at:
+The new version of the game itself is available online at:
 https://seabattle.vakhramoff.ru/
+
+New repo:
+https://github.com/vakhramoff/SeaBattle-Bundled
 
 ## About the game
 A simple online **Sea Battle Game** which allows you to enjoy a battle with a computer AI.
